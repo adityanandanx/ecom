@@ -52,7 +52,10 @@ export class ProductController implements IController {
 
   async update(req: Request, res: Response, next: NextFunction) {
     try {
-      const data = await this.productService.update(req.body);
+      const data = await this.productService.update(
+        Number(req.params.id),
+        req.body
+      );
       res.json(data);
     } catch (e) {
       next(e);

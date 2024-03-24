@@ -16,7 +16,7 @@ export class ProductService implements IService<Product> {
   delete(id: number) {
     return Product.delete({ where: { id } });
   }
-  update(item: Product) {
-    return Product.update({ where: { id: item.id }, data: item });
+  update(id: number, item: ProductWithoutId | Product) {
+    return Product.update({ where: { id: id }, data: item });
   }
 }

@@ -3,5 +3,5 @@ export interface IService<T> {
   getAll: () => Promise<T[]>;
   getById: (id: number) => Promise<T | null>;
   delete: (id: number) => Promise<T>;
-  update: (item: T) => Promise<T>;
+  update: (id: number, item: T | Omit<T, "id">) => Promise<T>;
 }

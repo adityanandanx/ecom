@@ -11,7 +11,14 @@ export function errorHandler(
   let statusCode = res.statusCode !== 200 ? res.statusCode : 500;
   if (err instanceof Prisma.PrismaClientValidationError) {
     statusCode = 400;
+  } else if (err instanceof Prisma.PrismaClientKnownRequestError) {
+    switch (err.code) {
+      case "P2025":
+        statusCode = 404;
+    }
+    // console.log(err.code);
   }
+
   res.status(statusCode);
   res.json({
     message: err.message,
