@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { ErrorResponse } from "../interfaces/error-response";
 import { Prisma } from "@prisma/client";
+import { Clerk } from "@clerk/clerk-sdk-node";
 
 export function errorHandler(
   err: Error,
@@ -16,9 +17,9 @@ export function errorHandler(
       case "P2025":
         statusCode = 404;
     }
-    // console.log(err.code);
+  } else if (err.message === "Unauthenticated") {
+    statusCode = 401;
   }
-
   res.status(statusCode);
   res.json({
     message: err.message,

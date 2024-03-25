@@ -3,15 +3,23 @@ import app from "../../app";
 import seedDb from "../../helpers/seed/seedDb";
 
 beforeAll(async () => {
-  await seedDb();
+  seedDb();
 });
 
 let id: number | null = null;
+const userToken = process.env.TEST_USER_TOKEN;
+if (!userToken) {
+  throw new Error(
+    "Provide a TEST_USER_TOKEN env variable for testing - visit: https://clerk.com/docs/testing/postman-or-insomnia"
+  );
+}
+
 describe("POST /api/product", () => {
   it("responds with a new todo", async () =>
     request(app)
       .post("/api/product")
       .set("Accept", "application/json")
+      .auth(userToken, { type: "bearer" })
       .send({
         title: "test product 1",
         description: "test description",
@@ -30,6 +38,7 @@ describe("POST /api/product", () => {
     request(app)
       .post("/api/product")
       .set("Accept", "application/json")
+      .auth(userToken, { type: "bearer" })
       .send({
         title: 123,
         description: "test description",
@@ -37,6 +46,20 @@ describe("POST /api/product", () => {
       })
       .expect("Content-Type", /json/)
       .expect(400));
+});
+
+describe("POST /api/product", () => {
+  it("responds with unauthorized error", async () =>
+    request(app)
+      .post("/api/product")
+      .set("Accept", "application/json")
+      .send({
+        title: 123,
+        description: "test description",
+        price: "helso",
+      })
+      .expect("Content-Type", /json/)
+      .expect(401));
 });
 
 describe("GET /api/product/:id", () => {
@@ -75,6 +98,7 @@ describe("UPDATE /api/product/:id", () => {
     request(app)
       .put(`/api/product/${id}`)
       .set("Accept", "application/json")
+      .auth(userToken, { type: "bearer" })
       .send({ title: "New title" })
       .expect(200)
       .then((res) => {
@@ -90,6 +114,7 @@ describe("UPDATE /api/product/:id", () => {
     request(app)
       .put(`/api/product/-1`)
       .set("Accept", "application/json")
+      .auth(userToken, { type: "bearer" })
       .send({ title: "New title" })
       .expect(404));
 });
@@ -99,8 +124,18 @@ describe("UPDATE /api/product/:id", () => {
     request(app)
       .put(`/api/product/${id}`)
       .set("Accept", "application/json")
+      .auth(userToken, { type: "bearer" })
       .send({ title: 123 })
       .expect(400));
+});
+
+describe("UPDATE /api/product/:id", () => {
+  it(`responds with unauthorized error`, async () =>
+    request(app)
+      .put(`/api/product/${id}`)
+      .set("Accept", "application/json")
+      .send({ title: 123 })
+      .expect(401));
 });
 
 describe("DELETE /api/product/:id", () => {
@@ -108,6 +143,7 @@ describe("DELETE /api/product/:id", () => {
     request(app)
       .delete(`/api/product/${id}`)
       .set("Accept", "application/json")
+      .auth(userToken, { type: "bearer" })
       .expect(200)
       .then((res) => {
         expect(res.body).toHaveProperty("id");
@@ -116,9 +152,18 @@ describe("DELETE /api/product/:id", () => {
 });
 
 describe("DELETE /api/product/:id", () => {
-  it(`deletes product with id ${id} and returns it`, async () =>
+  it(`responds with not found error`, async () =>
     request(app)
       .delete(`/api/product/-1`)
       .set("Accept", "application/json")
+      .auth(userToken, { type: "bearer" })
       .expect(404));
+});
+
+describe("DELETE /api/product/:id", () => {
+  it(`responds with unauthorized error`, async () =>
+    request(app)
+      .delete(`/api/product/-1`)
+      .set("Accept", "application/json")
+      .expect(401));
 });
