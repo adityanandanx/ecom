@@ -1,11 +1,16 @@
-import { Router } from "express";
+import { Router, Request, Response } from "express";
 import { ProductController } from "./product.controller";
+import { authMiddleware } from "../../middlewares/auth";
+import { RequireAuthProp } from "@clerk/clerk-sdk-node";
 
 const productRouter = Router();
 const productController = new ProductController();
 
-productRouter.post("/", (req, res, next) =>
-  productController.create(req, res, next)
+productRouter.post(
+  "/",
+  authMiddleware(),
+  (req: RequireAuthProp<Request>, res, next) =>
+    productController.create(req, res, next)
 );
 productRouter.get("/", (req, res, next) =>
   productController.getAll(req, res, next)
@@ -13,11 +18,17 @@ productRouter.get("/", (req, res, next) =>
 productRouter.get("/:id", (req, res, next) =>
   productController.getById(req, res, next)
 );
-productRouter.delete("/:id", (req, res, next) =>
-  productController.delete(req, res, next)
+productRouter.delete(
+  "/:id",
+  authMiddleware(),
+  (req: RequireAuthProp<Request>, res, next) =>
+    productController.delete(req, res, next)
 );
-productRouter.put("/:id", (req, res, next) =>
-  productController.update(req, res, next)
+productRouter.put(
+  "/:id",
+  authMiddleware(),
+  (req: RequireAuthProp<Request>, res, next) =>
+    productController.update(req, res, next)
 );
 
 export default productRouter;
