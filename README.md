@@ -81,6 +81,10 @@ src/
 - `db.ts` exports prisma client
 - `index.ts` launches the app by listening on a specific port
 
+## Contributing
+
+Read [Contributing Guidelines](./docs/CONTRIBUTING.md)
+
 ## Code of Conduct
 
-Please adhere to the [Code of Conduct](./CODE_OF_CONDUCT).
+Please adhere to the [Code of Conduct](./CODE_OF_CONDUCT.md).

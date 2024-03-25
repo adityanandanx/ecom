@@ -4,7 +4,7 @@ Thank you for considering contributing to our project! Whether you're reporting 
 
 ## Code of Conduct
 
-Please note that this project adheres to the [Contributor Covenant Code of Conduct](../CODE_OF_CONDUCT). By participating in this project, you are expected to uphold this code. Please report unacceptable behavior to project maintainers.
+Please note that this project adheres to the [Contributor Covenant Code of Conduct](../CODE_OF_CONDUCT.md). By participating in this project, you are expected to uphold this code. Please report unacceptable behavior to project maintainers.
 
 ## Branching and Commits
 
