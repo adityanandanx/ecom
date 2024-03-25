@@ -83,4 +83,4 @@ src/
 
 ## Code of Conduct
 
-Please adhere to the [Code of Conduct](../CODE_OF_CONDUCT).
+Please adhere to the [Code of Conduct](./CODE_OF_CONDUCT).
