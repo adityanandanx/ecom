@@ -4,6 +4,31 @@ An E-Commerce made with [Next.js](https://nextjs.org/) as the the BFF(Backend fo
 <br>
 Other technologies are Prisma as the ORM, and Jest for writing unit tests for the express server.
 
+## Scripts -
+
+The project is setup with [pnpm workspaces](https://pnpm.io/workspaces). Run these scripts in the root directory.
+
+- To run the dev server for nextjs
+  ```bash
+  pnpm dev:client
+  ```
+- To run the dev server for express server
+  ```bash
+  pnpm dev:server
+  ```
+- To run tests for nextjs client
+  ```bash
+  pnpm test:client
+  ```
+- To run tests for express server
+  ```bash
+  pnpm test:server
+  ```
+- To run all tests
+  ```bash
+  pnpm test
+  ```
+
 ## Server -
 
 ### Libraries -
