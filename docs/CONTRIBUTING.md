@@ -18,6 +18,22 @@ To set up your development environment, follow these steps:
 
 - Clone the repository: `git clone https://github.com/imadi-arch/ecom.git`
 - Install dependencies: `pnpm install`
+- Add environment variables
+
+  - for server:
+
+    - copy the [`server/.env.example`](../server/.env.example) file to `server/.env`
+    - fill in the appropriate variables
+    - for `TEST_USER_TOKEN` and `TEST_ADMIN_TOKEN`, first add a custom session token-
+      ```json
+      {
+        "role": "{{user.public_metadata.role}}"
+      }
+      ```
+    - then create 2 users like `admin@ecom.com` and `test.user@ecom.com` and add public metadata `{ "role": "admin" }` to `admin@ecom.com` user.
+    - then follow [this blog post](https://dev.to/mad/api-testing-with-clerk-and-express-2i56) while making sure to paste in the same custom session token in the claims field while creating a testing jwt template
+    - paste the tokens in the appropriate variables
+
 - Start the development servers:
   Next.js server: `pnpm dev:client`
   Express server: `pnpm dev:server`
