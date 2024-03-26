@@ -18,7 +18,7 @@ export function errorHandler(
         statusCode = 404;
     }
   } else if (err.message === "Unauthenticated") {
-    statusCode = 401;
+    statusCode = 403;
   }
   res.status(statusCode);
   res.json({
