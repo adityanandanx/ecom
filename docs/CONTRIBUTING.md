@@ -10,13 +10,13 @@ Please note that this project adheres to the [Contributor Covenant Code of Condu
 
 - **Branch Names:** Use descriptive and lowercase branch names. Separate words with hyphens (e.g., feat/add-authentication, fix/fix-cart-bug).
 
-- **Commits:** Write clear, concise, and meaningful commit messages. Start the message with a capitalized verb in the imperative mood (e.g., "Fix issue with authentication").
+- **Commits:** Write clear, concise, and meaningful commit messages. Start the message with a capitalized verb in the imperative mood (e.g., "fix: issue with authentication").
 
 ## Development Setup
 
 To set up your development environment, follow these steps:
 
-- Clone the repository: git clone https://github.com/yourusername/repository.git
+- Clone the repository: `git clone https://github.com/imadi-arch/ecom.git`
 - Install dependencies: `pnpm install`
 - Start the development servers:
   Next.js server: `pnpm dev:client`
