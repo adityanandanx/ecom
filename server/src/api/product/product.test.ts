@@ -13,13 +13,19 @@ if (!userToken) {
     "Provide a TEST_USER_TOKEN env variable for testing - visit: https://clerk.com/docs/testing/postman-or-insomnia"
   );
 }
+const adminToken = process.env.TEST_ADMIN_TOKEN;
+if (!adminToken) {
+  throw new Error(
+    "Provide a TEST_ADMIN_TOKEN env variable for testing - visit: https://clerk.com/docs/testing/postman-or-insomnia"
+  );
+}
 
 describe("POST /api/product", () => {
   it("responds with a new todo", async () =>
     request(app)
       .post("/api/product")
       .set("Accept", "application/json")
-      .auth(userToken, { type: "bearer" })
+      .auth(adminToken, { type: "bearer" })
       .send({
         title: "test product 1",
         description: "test description",
@@ -38,7 +44,7 @@ describe("POST /api/product", () => {
     request(app)
       .post("/api/product")
       .set("Accept", "application/json")
-      .auth(userToken, { type: "bearer" })
+      .auth(adminToken, { type: "bearer" })
       .send({
         title: 123,
         description: "test description",
@@ -53,6 +59,21 @@ describe("POST /api/product", () => {
     request(app)
       .post("/api/product")
       .set("Accept", "application/json")
+      .send({
+        title: 123,
+        description: "test description",
+        price: "helso",
+      })
+      .expect("Content-Type", /json/)
+      .expect(401));
+});
+
+describe("POST /api/product", () => {
+  it("responds with unauthorized error", async () =>
+    request(app)
+      .post("/api/product")
+      .set("Accept", "application/json")
+      .auth(userToken, { type: "bearer" })
       .send({
         title: 123,
         description: "test description",
@@ -98,7 +119,7 @@ describe("UPDATE /api/product/:id", () => {
     request(app)
       .put(`/api/product/${id}`)
       .set("Accept", "application/json")
-      .auth(userToken, { type: "bearer" })
+      .auth(adminToken, { type: "bearer" })
       .send({ title: "New title" })
       .expect(200)
       .then((res) => {
@@ -114,7 +135,7 @@ describe("UPDATE /api/product/:id", () => {
     request(app)
       .put(`/api/product/-1`)
       .set("Accept", "application/json")
-      .auth(userToken, { type: "bearer" })
+      .auth(adminToken, { type: "bearer" })
       .send({ title: "New title" })
       .expect(404));
 });
@@ -124,7 +145,7 @@ describe("UPDATE /api/product/:id", () => {
     request(app)
       .put(`/api/product/${id}`)
       .set("Accept", "application/json")
-      .auth(userToken, { type: "bearer" })
+      .auth(adminToken, { type: "bearer" })
       .send({ title: 123 })
       .expect(400));
 });
@@ -138,12 +159,22 @@ describe("UPDATE /api/product/:id", () => {
       .expect(401));
 });
 
+describe("UPDATE /api/product/:id", () => {
+  it(`responds with unauthorized error`, async () =>
+    request(app)
+      .put(`/api/product/${id}`)
+      .set("Accept", "application/json")
+      .auth(userToken, { type: "bearer" })
+      .send({ title: 123 })
+      .expect(401));
+});
+
 describe("DELETE /api/product/:id", () => {
   it(`deletes product with id ${id} and returns it`, async () =>
     request(app)
       .delete(`/api/product/${id}`)
       .set("Accept", "application/json")
-      .auth(userToken, { type: "bearer" })
+      .auth(adminToken, { type: "bearer" })
       .expect(200)
       .then((res) => {
         expect(res.body).toHaveProperty("id");
@@ -156,7 +187,7 @@ describe("DELETE /api/product/:id", () => {
     request(app)
       .delete(`/api/product/-1`)
       .set("Accept", "application/json")
-      .auth(userToken, { type: "bearer" })
+      .auth(adminToken, { type: "bearer" })
       .expect(404));
 });
 
@@ -165,5 +196,14 @@ describe("DELETE /api/product/:id", () => {
     request(app)
       .delete(`/api/product/-1`)
       .set("Accept", "application/json")
+      .expect(401));
+});
+
+describe("DELETE /api/product/:id", () => {
+  it(`responds with unauthorized error`, async () =>
+    request(app)
+      .delete(`/api/product/-1`)
+      .set("Accept", "application/json")
+      .auth(userToken, { type: "bearer" })
       .expect(401));
 });
