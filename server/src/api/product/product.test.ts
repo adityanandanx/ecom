@@ -55,7 +55,7 @@ describe("POST /api/product", () => {
 });
 
 describe("POST /api/product", () => {
-  it("responds with unauthorized error", async () =>
+  it("responds with unauthenticated error", async () =>
     request(app)
       .post("/api/product")
       .set("Accept", "application/json")
@@ -65,7 +65,7 @@ describe("POST /api/product", () => {
         price: "helso",
       })
       .expect("Content-Type", /json/)
-      .expect(401));
+      .expect(403));
 });
 
 describe("POST /api/product", () => {
@@ -151,12 +151,12 @@ describe("UPDATE /api/product/:id", () => {
 });
 
 describe("UPDATE /api/product/:id", () => {
-  it(`responds with unauthorized error`, async () =>
+  it(`responds with unauthenticated error`, async () =>
     request(app)
       .put(`/api/product/${id}`)
       .set("Accept", "application/json")
       .send({ title: 123 })
-      .expect(401));
+      .expect(403));
 });
 
 describe("UPDATE /api/product/:id", () => {
@@ -192,11 +192,11 @@ describe("DELETE /api/product/:id", () => {
 });
 
 describe("DELETE /api/product/:id", () => {
-  it(`responds with unauthorized error`, async () =>
+  it(`responds with unauthenticated error`, async () =>
     request(app)
       .delete(`/api/product/-1`)
       .set("Accept", "application/json")
-      .expect(401));
+      .expect(403));
 });
 
 describe("DELETE /api/product/:id", () => {
